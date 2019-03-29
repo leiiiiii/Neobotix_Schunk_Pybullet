@@ -1,0 +1,241 @@
+<?xml version="1.0"?>
+<robot name="gripper_2" >
+
+<!-- Materials -->
+
+    <material name="Neobotix/Black">
+        <color rgba="0.0 0.0 0.0 1.0"/>
+    </material>
+
+    <material name="Neobotix/Blue">
+        <color rgba="0.0 0.0 0.8 1.0"/>
+    </material>
+
+    <material name="Neobotix/Green">
+        <color rgba="0.0 0.8 0.0 1.0"/>
+    </material>
+
+    <material name="Neobotix/Grey">
+        <color rgba="0.7 0.7 0.7 1.0"/>
+    </material>
+
+    <material name="Neobotix/Grey2">
+        <color rgba="0.9 0.9 0.9 1.0"/>
+    </material>
+
+    <material name="Neobotix/Red">
+        <color rgba="0.8 0.0 0.0 1.0"/>
+    </material>
+
+    <material name="Neobotix/White">
+        <color rgba="1.0 1.0 1.0 1.0"/>
+    </material>
+
+    <material name="Neobotix/Yellow">
+        <color rgba="1.0 1.0 0 10" />
+    </material>
+
+    <material name="Schunk/LightGrey">
+        <color rgba="0.7 0.7 0.7 1.0"/>
+    </material>
+
+    <material name="Schunk/DarkGrey">
+        <color rgba="0.4 0.4 0.4 1.0"/>
+    </material>
+
+    <material name="Schunk/Black">
+        <color rgba="0.0 0.0 0.0 1.0"/>
+    </material>
+
+    <material name="Schunk/DarkGolden">
+        <color rgba="0.4 0.4 0.3 1.0"/>
+    </material>
+
+    <material name="Schunk/Blue">
+        <color rgba="0.0 0.0 0.8 1.0"/>
+    </material>
+
+
+<!--++++++++++++++++++++++++++++++base_link++++++++++++++++++++++++++++++++++++++++++++++++++++-->
+<!--++++++++++++++++++++body++++++++++++++++++++++++++++-->
+  <link name="base_link">
+       <inertial>
+           <mass value="67.010" />
+	       <origin xyz="0 0 0.216" rpy="0 0 0"/>
+	       <inertia ixx="0.54" ixy="0.0" ixz="0.0" iyy="1.08" iyz="0.0" izz="1.23" />
+       </inertial>
+       <visual>
+        <!--origin xyz="0.0 0.0 0.234" rpy="0 0 1.57" /--><!-- for cylinder -->
+	       <origin xyz="-0.160 0.0 0.09" rpy="0 0 -1.57" />
+           <geometry>
+               <mesh filename="/home/lei/Documents/Projektpraktikum/Pybullet/bullet3/examples/pybullet/gym/pybullet_data/neobotixschunk/meshes/MP500-BODY.STL" scale="0.01 0.01 0.01"/>
+	    	<!--cylinder length="0.381" radius="0.2545"/-->
+	    	<!--box size="0.445 0.277 0.17"/-->
+           </geometry>
+           <material name="Neobotix/Grey" />
+       </visual>
+       <collision name='body_collision'>
+           <origin xyz="-0.160 0.0 0.09" rpy="0 0 -1.57" />
+           <geometry>
+               <mesh filename="/home/lei/Documents/Projektpraktikum/Pybullet/bullet3/examples/pybullet/gym/pybullet_data/neobotixschunk/meshes/MP500-BODY.STL" scale="0.01 0.01 0.01"/>
+               <!--<box size="0.814 0.592 0.4225"/>-->
+          <!--cylinder length="0.381" radius="0.2545"/-->
+           </geometry>
+       </collision>
+  </link>
+
+<!--+++++++++++++++++++wheel_left_link++++++++++++++++++++++++-->
+   <link name="wheel_left_link" type="wheel">
+      <inertial>
+      	   <mass value="1.5" />
+     	   <origin xyz="0 0 0" rpy="0 0 0" />
+      	   <inertia ixx="0.0045" ixy="0" ixz="0" iyy="0.0078" iyz="0" izz="0.0045" />
+      </inertial>
+      <visual>
+     	<origin xyz="0 0 0" rpy="0 0 -1.57" />
+     	<geometry>
+            <mesh filename="/home/lei/Documents/Projektpraktikum/Pybullet/bullet3/examples/pybullet/gym/pybullet_data/neobotixschunk/meshes/MP500-WHEEL.STL" scale="0.01 0.01 0.01" />
+     	</geometry>
+     	<material name="Neobotix/Blue" />
+      </visual>
+
+      <collision>
+     	<origin xyz="0 0 0" rpy="0 1.57 -1.57" />
+     	<geometry>
+        	<cylinder radius="0.124" length="0.085"/>
+     	</geometry>
+      </collision>
+   </link>
+
+<!--+++++++++++++++++++wheel_left_joint++++++++++++++++++++++++-->
+  <joint name="wheel_left_joint" type="revolute">
+     <origin xyz="-0.155 0.255 0.13" rpy="0 0 0" />
+     <axis xyz="0 1 0"/>
+     <limit effort="10000.0" lower="-1e+16" upper="1e+16" velocity="11.6"/>
+     <joint_properties damping="0.0" friction="0.0" />
+     <parent link="base_link" />
+     <child link="wheel_left_link" />
+  </joint>
+
+  <!--<transmission name="wheel_left_joint_transmission" type="SimpleTransmission">-->
+    <!--<type>transmission_interface/SimpleTransmission</type>-->
+    <!--<joint name="wheel_left_joint">-->
+      <!--<hardwareInterface>EffortJointInterface</hardwareInterface>-->
+    <!--</joint>-->
+    <!--<actuator name="wheel_left_joint_motor">-->
+      <!--<hardwareInterface>EffortJointInterface</hardwareInterface>-->
+      <!--<mechanicalReduction>1</mechanicalReduction>-->
+    <!--</actuator>-->
+  <!--</transmission>-->
+
+<!--+++++++++++++++++++wheel_right_link++++++++++++++++++++++++-->
+
+  <link name="wheel_right_link" type="wheel">
+     <inertial>
+         <mass value="1.5" />
+         <origin xyz="0 0 0" rpy="0 0 0" />
+		  <!--inertia ixx="0.0051" ixy="0" ixz="0" iyy="0.0051" iyz="0" izz="0.009" /-->
+         <inertia ixx="0.0045" ixy="0" ixz="0" iyy="0.0078" iyz="0" izz="0.0045" />
+     </inertial>
+
+     <visual>
+         <origin xyz="0 0 0" rpy="0 0 -1.57" />
+         <geometry>
+             <mesh filename="/home/lei/Documents/Projektpraktikum/Pybullet/bullet3/examples/pybullet/gym/pybullet_data/neobotixschunk/meshes/MP500-WHEEL.STL" scale="0.01 0.01 0.01" />
+         </geometry>
+         <material name="Neobotix/Blue" />
+     </visual>
+     <collision>
+         <origin xyz="0 0 0" rpy="0 1.57 -1.57" />
+         <geometry>
+             <cylinder radius="0.124" length="0.085"/>
+	     </geometry>
+     </collision>
+  </link>
+
+<!--+++++++++++++++++++wheel_right_joint++++++++++++++++++++++++-->
+   <joint name="wheel_right_joint" type="revolute">
+       <origin xyz="-0.155 -0.255 0.13" rpy="0 0 0" />
+       <axis xyz="0 1 0"/>
+       <limit effort="10000.0" lower="-1e+16" upper="1e+16" velocity="11.6"/>
+       <joint_properties damping="0.0" friction="0.0" />
+       <parent link="base_link" />
+       <child link="wheel_right_link" />
+   </joint>
+
+   <!--<transmission name="wheel_right_joint_transmission" type="SimpleTransmission">-->
+    <!--<type>transmission_interface/SimpleTransmission</type>-->
+    <!--<joint name="wheel_right_joint">-->
+      <!--<hardwareInterface>EffortJointInterface</hardwareInterface>-->
+    <!--</joint>-->
+    <!--<actuator name="wheel_right_joint_motor">-->
+      <!--<hardwareInterface>EffortJointInterface</hardwareInterface>-->
+      <!--<mechanicalReduction>1</mechanicalReduction>-->
+    <!--</actuator>-->
+   <!--</transmission>-->
+
+
+<!--+++++++++++++++++++laserscanner_front_joint++++++++++++++++++++++++-->
+   <joint name="laserscanner_front_joint" type="fixed">
+       <axis xyz="0 0 1" />
+       <origin xyz="-0.39 0 0.281" rpy="0 0 0" />
+       <parent link="base_link"/>
+       <child link="laserscanner_front_link"/>
+   </joint>
+
+<!--+++++++++++++++++++laserscanner_front_link++++++++++++++++++++++++-->
+    <link name="laserscanner_front_link" type="laser">
+	<inertial>
+		<mass value="0.001" />
+		<origin xyz="0 0 0" rpy="3.14 0 -1.57" />
+		<inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.001" />
+    </inertial>
+    <visual>
+		<origin xyz="0 0 -0.04" rpy="3.14 0 -1.57" />
+		<geometry>
+            <mesh filename="/home/lei/Documents/Projektpraktikum/Pybullet/bullet3/examples/pybullet/gym/pybullet_data/neobotixschunk/meshes/SICK-S300.STL" />
+		</geometry>
+		<material name="Neobotix/Yellow" />
+  	</visual>
+    <collision>
+		<origin xyz="0 0 0" rpy="3.14 0 -1.57" />
+		<geometry>
+            <cylinder length="0.154" radius="0.053" />
+		</geometry>
+  	</collision>
+    </link>
+
+<!--+++++++++++++++ wheel_hanger+++++++++++++++++++++++++++-->
+   <link name="hanger">
+      <inertial>
+		  <mass value="0.001" />
+		  <origin xyz="0 0 0" rpy="0 0 0" />
+		  <inertia ixx="0.0013" ixy="0" ixz="0" iyy="0.0013" iyz="0" izz="0.0013" />
+      </inertial>
+      <visual>
+          <origin xyz="0 0 0" rpy="0 0 -1.57" />
+          <geometry>
+              <mesh filename="/home/lei/Documents/Projektpraktikum/Pybullet/bullet3/examples/pybullet/gym/pybullet_data/neobotixschunk/meshes/HANGER-WHEEL.STL" scale="0.01 0.01 0.01" />
+	      </geometry>
+          <material name="Neobotix/Grey" />
+	  </visual>
+      <collision>
+		 <origin xyz="0 0 0" rpy="0 0 -1.57" />
+		 <geometry>
+             <mesh filename="/home/lei/Documents/Projektpraktikum/Pybullet/bullet3/examples/pybullet/gym/pybullet_data/neobotixschunk/meshes/HANGER-WHEEL.STL" scale="0.01 0.01 0.01" />
+          	<!--<sphere radius="0.00852"/>-->
+		 </geometry>
+      </collision>
+   </link>
+
+<!--+++++++++++++++ wheel_hanger_joint +++++++++++++++++++++++++++-->
+   <joint name="hanger_joint" type="fixed">
+    	<origin xyz="0.255 0 0.10" rpy="0 0 0"/>
+    	<axis xyz="0 0 1"/>
+    	<limit effort="10000.0" lower="-1e+16" upper="1e+16" velocity="13.5"/>
+    	<joint_properties damping="0.0" friction="0.0" />
+    	<parent link="base_link" />
+    	<child link="hanger" />
+   </joint>
+
+</robot>
